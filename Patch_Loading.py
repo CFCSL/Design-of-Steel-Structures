@@ -121,108 +121,104 @@ res = Patch_Loading1(Type="A", F_ED=F_ED_val, t_w=t_w_val, h_w=h_w_val,
 print(res)
 
 #%%
-# =============================================================================
-# F_ED, t_w, h_w, b_f, f_yf, t_f, f_yw, gamma_M1, E, S_S, a, c, epsilon, f_y = symbols(
-# 	'F_ED t_w h_w b_f f_yf t_f f_yw gamma_M1 E S_S a c epsilon f_y')
-# 
-# 
-# k_F, F_cr, m_1, m_2, l_e, l_y, F_y, lambda_F, chi_F, F_Rd, eta_2=symbols('k_F  F_cr  m_1  m_2  l_e  l_y  F_y  lambda_F  chi_F  F_Rd  eta_2',cls=Function)
-# 
-# def k_F_func(Type,**kwargs):
-# 	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
-# 	if Type == "A":
-# 		expr = 6 + 2 * (h_w / a)**2
-# 	if Type == "B":
-# 		expr = 3.5 + 2 * (h_w / a)**2
-# 	if Type == "C":
-# 		expr = 6 + 2 * ((S_S + c) / h_w)**2
-# 	_eq=Eq(k_F,expr)
-# 	_eq=_eq.subs(kwargs)
-# 	return _eq
-# 
-# def F_cr_func(Type, **kwargs):
-# 	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
-# 	expr=0.9*(k_F*E)*(t_w**3/h_w )
-# 	_eq=Eq(F_cr,expr)
-# 	_eq=_eq.subs(kwargs)
-# 	return _eq
-# 	
-# def m_1_func(Type, **kwargs):
-# 	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
-# 	expr= f_yf*b_f/(f_yw*t_w)
-# 	_eq=Eq(m_1,expr)
-# 	_eq=_eq.subs(kwargs)
-# 	return _eq
-# 
-# def m_2_func(Type, **kwargs):
-# 	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
-# 	condlist=[lambda_F>0.5, lambda_F<=0.5]
-# 	funclist=[0.02*(h_w/t_f)**2, 0]
-# 	expr = Piecewise(*zip(funclist,condlist))
-# 	_eq=Eq(m_2,expr)
-# 	_eq=_eq.subs(kwargs)
-# 	return _eq
-# 
-# def l_e_func(Type, **kwargs):
-# 	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
-# 	
-# 	if Type=="C":
-# 		expr=(k_F*E*t_w**2)/(2*f_yw*h_w)
-# 	else:
-# 		expr=0
-# 	_eq=Eq(l_e,expr)
-# 	_eq=_eq.subs(kwargs)
-# 	return _eq
-# 
-# 
-# def l_y_func(Type, **kwargs):
-# 	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
-# 	if Type=="A" or Type=="B":
-# 		expr=S_S+2*t_f*(1+sqrt(m_1+m_2))
-# 		
-# 	if Type=="C":
-# 		expr1=l_e+t_f*sqrt(m_1/2+(l_e/t_f)**2+m_2)
-# 		expr2=l_e+t_f*sqrt(m_1+m_2)
-# 		expr=Min(expr1,expr2)
-# 	_eq=Eq(l_y,expr)
-# 	_eq=_eq.subs(kwargs)
-# 	return _eq
-# 
-# def F_y_func(Type, **kwargs):
-# 	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
-# 	expr=f_yw*t_w*l_y
-# 	_eq=Eq(F_y,expr)
-# 	_eq=_eq.subs(kwargs)
-# 	return _eq
-# 
-# def lambda_F_func(Type, **kwargs):
-# 	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
-# 	expr= sqrt((l_y*t_w*f_yw)/(F_cr))
-# 	_eq=Eq(lambda_F,expr)
-# 	_eq=_eq.subs(kwargs)
-# 	return _eq
-# 
-# def chi_F_func(**kwargs):
-# 	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
-# 	expr= 0.5/ lambda_F
-# 	_eq=Eq(F_y,expr)
-# 	_eq=_eq.subs(kwargs)
-# 	return _eq
-# 
-# def F_Rd_func(Type,**kwargs):
-# 	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
-# 	expr=chi_F*F_y/gamma_M1
-# 	_eq=Eq(F_Rd,expr)
-# 	_eq=_eq.subs(kwargs)
-# 	return _eq
-# 
-# def eta_2_func(Type,**kwargs):
-# 	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
-# 	expr= F_ED/F_Rd
-# 	_eq=Eq(eta_2,expr)
-# 	_eq=_eq.subs(kwargs)
-# 	return _eq
-# =============================================================================
+F_ED, t_w, h_w, b_f, f_yf, t_f, f_yw, gamma_M1, E, S_S, a, c, epsilon, f_y = symbols(
+	'F_ED t_w h_w b_f f_yf t_f f_yw gamma_M1 E S_S a c epsilon f_y')
+
+Type=str
+
+k_F, F_cr, m_1, m_2, l_e, l_y, F_y, lambda_F, chi_F, F_Rd, eta_2=symbols('k_F  F_cr  m_1  m_2  l_e  l_y  F_y  lambda_F  chi_F  F_Rd  eta_2')
+
+def k_F_func(Type,**kwargs):
+	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
+	if Type == "A":
+		expr = 6 + 2 * (h_w / a)**2
+	if Type == "B":
+		expr = 3.5 + 2 * (h_w / a)**2
+	if Type == "C":
+		expr = 6 + 2 * ((S_S + c) / h_w)**2
+	_eq=Eq(k_F,expr)
+	_eq=_eq.subs(kwargs)
+	return _eq
+
+def F_cr_func(Type, **kwargs):
+	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
+	expr=0.9*(k_F*E)*(t_w**3/h_w )
+	_eq=Eq(F_cr,expr)
+	_eq=_eq.subs(kwargs)
+	return _eq
+	
+def m_1_func(Type, **kwargs):
+	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
+	expr= f_yf*b_f/(f_yw*t_w)
+	_eq=Eq(m_1,expr)
+	_eq=_eq.subs(kwargs)
+	return _eq
+
+def m_2_func(Type, **kwargs):
+	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
+	#condlist=[lambda_F>0.5, lambda_F<=0.5]
+	#funclist=[0.02*(h_w/t_f)**2, 0]
+	#expr = Piecewise(*zip(funclist,condlist))
+	expr=0.02*(h_w/t_f)**2
+	_eq=Eq(m_2,expr)
+	_eq=_eq.subs(kwargs)
+	return _eq
+
+def l_e_func(Type, **kwargs):
+	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
+	expr=(k_F*E*t_w**2)/(2*f_yw*h_w)
+	_eq=Eq(l_e,expr)
+	_eq=_eq.subs(kwargs)
+	return _eq
+
+
+def l_y_func(Type, **kwargs):
+	#kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
+	if Type=="A" or Type=="B":
+		expr=S_S+2*t_f*(1+sqrt(m_1+m_2))
+
+	if Type=="C":
+		expr1=l_e+t_f*sqrt(m_1/2+(l_e/t_f)**2+m_2)
+		expr2=l_e+t_f*sqrt(m_1+m_2)
+		expr=Min(expr1,expr2)
+	_eq=Eq(l_y,expr)
+	_eq=_eq.subs(kwargs)
+	return _eq
+
+def F_y_func(Type, **kwargs):
+	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
+	expr=f_yw*t_w*l_y
+	_eq=Eq(F_y,expr)
+	_eq=_eq.subs(kwargs)
+	return _eq
+
+def lambda_F_func(Type, **kwargs):
+	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
+	expr= sqrt((F_y)/(F_cr))
+	_eq=Eq(lambda_F,expr)
+	_eq=_eq.subs(kwargs)
+	return _eq
+
+def chi_F_func(Type,**kwargs):
+	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
+	expr= 0.5/ lambda_F
+	_eq=Eq(chi_F,expr)
+	_eq=_eq.subs(kwargs)
+	return _eq
+
+def F_Rd_func(Type,**kwargs):
+	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
+	expr=chi_F*F_y/gamma_M1
+	_eq=Eq(F_Rd,expr)
+	_eq=_eq.subs(kwargs)
+	return _eq
+
+def eta_2_func(Type,**kwargs):
+	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
+	expr= F_ED/F_Rd
+	_eq=Eq(eta_2,expr)
+	_eq=_eq.subs(kwargs)
+	return _eq
 
 # =============================================================================
 # import numpy as np
