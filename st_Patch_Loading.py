@@ -87,6 +87,7 @@ Types=["A","B","C"]
 Type= st.selectbox("chose type of load applicatrion", options=Types)
 
 if db['S_S'] < db['a']:
+	st.write("The interaction of the transverse force, bending moment and axial force should be verified using 7.2.")
 
 	st.latex(latex(k_F_func(Type)))
 	
@@ -94,7 +95,7 @@ if db['S_S'] < db['a']:
 	k_F_val=N(k_F_func(Type, **db). doit(),4)
 	st.latex(latex(k_F_val))
 	db['k_F']=k_F_val.rhs
-	
+	st.write('Transverse force:')
 	st.latex(latex(F_cr_func(Type)))
 	st.latex(latex(F_cr_func(Type, **db)))
 	F_cr_val=N(F_cr_func(Type, **db). doit(),4)
@@ -103,6 +104,7 @@ if db['S_S'] < db['a']:
 	
 	
 	if db['F_cr'] < db['F_ED']:
+		st.write("$F_{cr}< F_{Ed}$,")
 		st.write('FIN! La estructura no cumple frente a patch loading')
 	
 	st.latex(latex(m_1_func(Type)))
@@ -123,11 +125,14 @@ if db['S_S'] < db['a']:
 		l_e_val=N(l_e_func(Type, **db). doit(),4)
 		st.latex(latex(l_e_val)+f'[m]')
 		db['l_e']=l_e_val.rhs
-		
+	st.write("Effective loaded length $l_y$")	
 	st.latex(latex(l_y_func(Type)))
-	#if Type=="A" or Type=="B":
-	#st.latex(latex(l_y_func(Type, **db)))
+	
 	l_y_val=N(l_y_func(Type, **db). doit(),4)
+	if Type=="A" or Type=="B" and l_y_val.rhs>db['a']:
+		st.write("but l y ≤ distance between adjacent transverse stiffeners")
+		db['l_y']=db['a']
+		st.latex(latex(Eq[l_y,db['a']])+f'[m]')
 	st.latex(latex(l_y_val)+f'[m]')
 	db['l_y']=l_y_val.rhs
 	
@@ -166,7 +171,7 @@ if db['S_S'] < db['a']:
 				l_e_val=N(l_e_func(Type, **db). doit(),4)
 				st.latex(latex(l_e_val)+f'[m]')
 				db['l_e']=l_e_val.rhs
-			
+			st.write("$l_y$ is the effective loaded length")
 			st.latex(latex(l_y_func(Type)))
 			st.latex(latex(l_y_func(Type, **db)))
 			l_y_val=N(l_y_func(Type, **db). doit(),4)
@@ -203,6 +208,7 @@ if db['S_S'] < db['a']:
 				db['F_Rd']=F_Rd_val.rhs
 			
 				if db['F_Rd']<db['F_ED']:
+					st.write("$F_{Rd}< F_{Ed}$,")
 					st.write('FIN! La estructura no cumple frente a patch loading')
 				
 			
@@ -212,6 +218,7 @@ if db['S_S'] < db['a']:
 				st.latex(latex(eta_2_val))
 				db['eta_2']=eta_2_val.rhs
 		else:
+			st.write("Reduction factor $chi_F$ for effective length for resistance")
 			st.latex(latex(chi_F_func(Type)))
 			st.latex(latex(chi_F_func(Type, **db)))
 			chi_F_val=N(chi_F_func(Type, **db). doit(),4)
@@ -225,9 +232,11 @@ if db['S_S'] < db['a']:
 			db['F_Rd']=F_Rd_val.rhs
 		
 			if db['F_Rd']<db['F_ED']:
+				st.write("$F_{Rd}< F_{Ed}$,")
+				
 				st.write('FIN! La estructura no cumple frente a patch loading')
 			
-		
+			st.write("The verification should be performed as follows:")
 			st.latex(latex(eta_2_func(Type)))
 			st.latex(latex(eta_2_func(Type, **db)))
 			eta_2_val=N(eta_2_func(Type, **db). doit(),4)
@@ -235,5 +244,6 @@ if db['S_S'] < db['a']:
 			db['eta_2']=eta_2_val.rhs
 			
 else:
+	sst.write("$S_s> a$,")
 	st.write('FIN! La estructura no cumple frente a patch loading')
 
