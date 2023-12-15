@@ -194,7 +194,8 @@ if db['S_S'] < db['a']:
 				lambda_F_val=N(lambda_F_func(Type, **db). doit(),4)
 				st.latex(latex(lambda_F_val))
 				db['lambda_F']=lambda_F_val.rhs
-
+				
+				st.write("Reduction factor $\chi_F$ for effective length for resistance")
 				st.latex(latex(chi_F_func(Type)))
 				st.latex(latex(chi_F_func(Type, **db)))
 				chi_F_val=N(chi_F_func(Type, **db). doit(),4)
@@ -218,7 +219,7 @@ if db['S_S'] < db['a']:
 				st.latex(latex(eta_2_val))
 				db['eta_2']=eta_2_val.rhs
 		else:
-			st.write("Reduction factor $chi_F$ for effective length for resistance")
+			st.write("Reduction factor $\chi_F$ for effective length for resistance")
 			st.latex(latex(chi_F_func(Type)))
 			st.latex(latex(chi_F_func(Type, **db)))
 			chi_F_val=N(chi_F_func(Type, **db). doit(),4)
