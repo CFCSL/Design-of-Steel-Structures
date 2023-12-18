@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 
 ue=UnevaluatedExpr
 
-def Patch_Loading1(Type, F_ED, t_w, h_w, b_f, f_yf, t_f, f_yw, gamma_M1, E, S_S, a, c):
+def Patch_Loading1(Type, F_Ed, t_w, h_w, b_f, f_yf, t_f, f_yw, gamma_M1, E, S_S, a, c):
 	if S_S <= a:
 		if Type == "A":
 			k_F = 6 + 2 * (h_w / a)**2
@@ -26,7 +26,7 @@ def Patch_Loading1(Type, F_ED, t_w, h_w, b_f, f_yf, t_f, f_yw, gamma_M1, E, S_S,
 
 		F_cr = 0.9 * k_F * E * t_w**3 / h_w
 
-		if F_cr < F_ED:
+		if F_cr < F_Ed:
 			print('FIN! La estructura no cumple frente a patch loading')
 			return None
 
@@ -53,7 +53,7 @@ def Patch_Loading1(Type, F_ED, t_w, h_w, b_f, f_yf, t_f, f_yw, gamma_M1, E, S_S,
 		F_y = f_yw * t_w * l_y
 		print(f'f_y1={F_y}')
 
-		if F_y < F_ED:
+		if F_y < F_Ed:
 			print('FIN! La estructura no cumple frente a patch loading')
 			return None
 
@@ -79,7 +79,7 @@ def Patch_Loading1(Type, F_ED, t_w, h_w, b_f, f_yf, t_f, f_yw, gamma_M1, E, S_S,
 			print(f'l_y={l_y}')
 			F_y = f_yw * t_w * l_y
 			print(f'f_y2={F_y}')
-			if F_y < F_ED:
+			if F_y < F_Ed:
 				print('FIN! La estructura no cumple frente a patch loading')
 				return None
 			lambda_F = np.sqrt((l_y * t_w * f_yw) / F_cr)
@@ -88,11 +88,11 @@ def Patch_Loading1(Type, F_ED, t_w, h_w, b_f, f_yf, t_f, f_yw, gamma_M1, E, S_S,
 			Xi_F=1.0
 		F_Rd = Xi_F * F_y / gamma_M1
 
-		if F_Rd < F_ED:
+		if F_Rd < F_Ed:
 			print('FIN! La estructura no cumple frente a patch loading')
 			return None
 
-		eta_2 = F_ED / F_Rd
+		eta_2 = F_Ed / F_Rd
 
 	else:
 		print('FIN! La estructura no cumple frente a patch loading')
@@ -101,7 +101,7 @@ def Patch_Loading1(Type, F_ED, t_w, h_w, b_f, f_yf, t_f, f_yw, gamma_M1, E, S_S,
 	return F_y,lambda_F, k_F, F_cr, m1, m2, l_y,Xi_F,F_Rd,  eta_2
 
 # Input parameters
-F_ED_val = 1415  # OK
+F_Ed_val = 1415  # OK
 t_w_val = 15e-3  # OK
 h_w_val = 270e-3  # OK
 b_f_val = 300e-3  # OK
@@ -114,15 +114,15 @@ S_S_val = 300e-3  # OK
 a_val = 1185e-3  # OK
 c_val = 0.9
 
-res = Patch_Loading1(Type="A", F_ED=F_ED_val, t_w=t_w_val, h_w=h_w_val,
+res = Patch_Loading1(Type="A", F_Ed=F_Ed_val, t_w=t_w_val, h_w=h_w_val,
 					 b_f=b_f_val, f_yf=f_yf_val, t_f=t_f_val, f_yw=f_yw_val,
 					 gamma_M1=gamma_M1_val, E=E_val, S_S=S_S_val, a=a_val, c=c_val)
 
 print(res)
 
 #%%
-F_ED, t_w, h_w, b_f, f_yf, t_f, f_yw, gamma_M1, E, S_S, a, c, epsilon, f_y = symbols(
-	'F_ED t_w h_w b_f f_yf t_f f_yw gamma_M1 E S_S a c epsilon f_y')
+F_Ed, t_w, h_w, b_f, f_yf, t_f, f_yw, gamma_M1, E, S_S, a, c, epsilon, f_y = symbols(
+	'F_Ed t_w h_w b_f f_yf t_f f_yw gamma_M1 E S_S a c epsilon f_y')
 
 Type=str
 
@@ -215,7 +215,7 @@ def F_Rd_func(Type,**kwargs):
 
 def eta_2_func(Type,**kwargs):
 	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
-	expr= F_ED/F_Rd
+	expr= F_Ed/F_Rd
 	_eq=Eq(eta_2,expr)
 	_eq=_eq.subs(kwargs)
 	return _eq
@@ -226,8 +226,8 @@ def eta_2_func(Type,**kwargs):
 # 
 # ue = UnevaluatedExpr
 # 
-# F_ED, t_w, h_w, b_f, f_yf, t_f, f_yw, gamma_M1, E, S_S, a, c, epsilon, f_y = symbols(
-#	 'F_ED t_w h_w b_f f_yf t_f f_yw gamma_M1 E S_S a c epsilon f_y'
+# F_Ed, t_w, h_w, b_f, f_yf, t_f, f_yw, gamma_M1, E, S_S, a, c, epsilon, f_y = symbols(
+#	 'F_Ed t_w h_w b_f f_yf t_f f_yw gamma_M1 E S_S a c epsilon f_y'
 # )
 # 
 # def Patch_Loading(Type, **kwargs):
@@ -239,7 +239,7 @@ def eta_2_func(Type,**kwargs):
 # 
 #	 F_cr = 0.9 * k_F * kwargs['E'] * kwargs['t_w']**3 / kwargs['h_w']
 # 
-#	 if F_cr < kwargs['F_ED']:
+#	 if F_cr < kwargs['F_Ed']:
 #		 print('FIN! La estructura no cumple frente a patch loading')
 #		 return None
 # 
@@ -257,7 +257,7 @@ def eta_2_func(Type,**kwargs):
 # 
 #		 F_y = kwargs['f_yw'] * kwargs['t_w'] * l_y
 # 
-#		 if F_y < kwargs['F_ED']:
+#		 if F_y < kwargs['F_Ed']:
 #			 print('FIN! La estructura no cumple frente a patch loading')
 #			 return None
 # 
@@ -270,16 +270,16 @@ def eta_2_func(Type,**kwargs):
 #		 Xi_r = 0.5 / lambda_F
 #		 F_Rd = Xi_r * F_y / kwargs['gamma_M1']
 # 
-#		 if F_Rd < kwargs['F_ED']:
+#		 if F_Rd < kwargs['F_Ed']:
 #			 print('FIN! La estructura no cumple frente a patch loading')
 #			 return None
 # 
-#		 eta_2 = kwargs['F_ED'] / F_Rd
+#		 eta_2 = kwargs['F_Ed'] / F_Rd
 #		 return eta_2
 # 
 # 
 # # Update variable names in the dictionary
-# db = {'F_ED': 3556.6, 't_w': 17.5e-3, 'h_w': 734e-4, 'b_f': 300e-3,
+# db = {'F_Ed': 3556.6, 't_w': 17.5e-3, 'h_w': 734e-4, 'b_f': 300e-3,
 #	   'f_yf': 355e3, 't_f': 33e-4, 'f_yw': 355e3, 'gamma_M1': 1.1,
 #	   'E': 200e6, 'S_S': 0.33, 'a': 0.125, 'c': 0.33,
 #	   'epsilon': 0.8136, 'f_y': 355}
@@ -292,7 +292,7 @@ def eta_2_func(Type,**kwargs):
 # 
 # ue=UnevaluatedExpr
 # 
-# F_ED=symbols('F_ED')
+# F_Ed=symbols('F_Ed')
 # t_w=symbols('t_w')
 # h_w=symbols('h_w')
 # b_f=symbols('b_f')
@@ -324,7 +324,7 @@ def eta_2_func(Type,**kwargs):
 # 	
 # 		F_cr=0.9*k_F*E*t_w**3/h_w
 # 		
-# 		if F_cr>=F_ED:
+# 		if F_cr>=F_Ed:
 # 			m1= (f_yf*b_f)/(f_yw*t_w)
 # 			
 # 			# Initial values for lambda_F and m2:
@@ -346,15 +346,15 @@ def eta_2_func(Type,**kwargs):
 # 					
 # 				
 # 					
-# 				if F_y>=F_ED:
+# 				if F_y>=F_Ed:
 # 					lambda_F=np.sqrt((l_y*t_w*f_yw)/F_cr)
 # 					m2=0
 # 			
 # 			Xi_r=0.5/lambda_F
 # 			if Xi_r<=1:
 # 				F_Rd=Xi_r*F_y/gamma_M1
-# 				if F_Rd>=F_ED:
-# 					eta_2=F_ED/ F_Rd
+# 				if F_Rd>=F_Ed:
+# 					eta_2=F_Ed/ F_Rd
 # 					
 # 					
 # 	else: 
@@ -362,7 +362,7 @@ def eta_2_func(Type,**kwargs):
 # 		
 # 	return eta_2
 # 		
-# F_ED_val=3556.6
+# F_Ed_val=3556.6
 # t_w_val=17.5e-3
 # h_w_val=734e-4
 # b_f_val=300e-3
@@ -379,7 +379,7 @@ def eta_2_func(Type,**kwargs):
 # 
 # 
 # 
-# db={'F_ED':F_ED_val,'t_w':t_w_val, 'h_w':h_w_val,'b_f':b_f_val, 
+# db={'F_Ed':F_Ed_val,'t_w':t_w_val, 'h_w':h_w_val,'b_f':b_f_val, 
 # 		'f_yf': f_yf_val,'t_f':t_f_val,'f_yw':f_yw_val,'gamma_M1':gamma_M1_val, 'E': E_val, 'S_S': S_S_val, 'a': a_val,
 # 		 'c': c_val,'epsilon': epsilon_val,'f_y': f_y_val}
 # 

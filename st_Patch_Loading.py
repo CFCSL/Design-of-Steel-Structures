@@ -53,7 +53,7 @@ st.markdown('**6.2 Input datas**')
 # Input parameters
 
 #
-F_ED_val = st.sidebar.number_input('Design transverse force $F_{ED} [kN]$', value= 1415.0, min_value=100.0, step=10.0, format="%.1f")
+F_Ed_val = st.sidebar.number_input('Design transverse force $F_{Ed} [kN]$', value= 1415.0, min_value=100.0, step=10.0, format="%.1f")
 #
 t_w_val = st.sidebar.number_input('thickness of the plate $t_{w} [m]$', value= 15e-3, min_value=0.0, step=0.10, format="%.3f")
 #
@@ -77,7 +77,7 @@ a_val = st.sidebar.number_input('length of a stiffened or unstiffened plate $a [
 
 c_val = st.sidebar.number_input('Distance $c [m]$', value= 900e-3, min_value=0.0, step=0.10, format="%.3f")
 
-db={'F_ED':F_ED_val, 't_w': t_w_val, 'h_w': h_w_val, 'b_f':b_f_val,
+db={'F_Ed':F_Ed_val, 't_w': t_w_val, 'h_w': h_w_val, 'b_f':b_f_val,
 	"f_yf": f_yf_val, "t_f":t_f_val, "f_yw":f_yw_val, "gamma_M1": gamma_M1_val,
 	"E":E_val, "S_S":S_S_val, "a":a_val, "c":c_val}
 
@@ -103,7 +103,7 @@ if db['S_S'] < db['a']:
 	db['F_cr']=F_cr_val.rhs
 	
 	
-	if db['F_cr'] < db['F_ED']:
+	if db['F_cr'] < db['F_Ed']:
 		st.write("$F_{cr}< F_{Ed}$,")
 		st.write('FIN! La estructura no cumple frente a patch loading')
 	
@@ -121,7 +121,6 @@ if db['S_S'] < db['a']:
 	
 	if Type=="C":
 		st.latex(latex(l_e_func(Type)))
-		st.latex(latex(l_e_func(Type, **db)))
 		l_e_val=N(l_e_func(Type, **db). doit(),4)
 		st.latex(latex(l_e_val)+f'[m]')
 		db['l_e']=l_e_val.rhs
@@ -129,10 +128,14 @@ if db['S_S'] < db['a']:
 	st.latex(latex(l_y_func(Type)))
 	
 	l_y_val=N(l_y_func(Type, **db). doit(),4)
-	if Type=="A" or Type=="B" and l_y_val.rhs>db['a']:
-		st.write("but l y ≤ distance between adjacent transverse stiffeners")
-		db['l_y']=db['a']
-		st.latex(latex(Eq[l_y,db['a']])+f'[m]')
+	
+	
+	if Type=="A" or Type=="B": 
+		if l_y_val.rhs>db['a']:
+			st.write("but l y ≤ distance between adjacent transverse stiffeners")
+			st.write(f'$l_y=$ {db["a"]} [m]')
+			db['l_y']=db['a']
+			#st.latex(latex(Eq[l_y,db['a']])+f'[m]')
 	st.latex(latex(l_y_val)+f'[m]')
 	db['l_y']=l_y_val.rhs
 	
@@ -142,7 +145,7 @@ if db['S_S'] < db['a']:
 	st.latex(latex(F_y_val)+f'[kN]')
 	db['F_y']=F_y_val.rhs
 	
-	if db['F_y'] < db['F_ED']:
+	if db['F_y'] < db['F_Ed']:
 		st.write('$F_y < F_{Ed}$ FIN! La estructura no cumple frente a patch loading')
 	
 	else:
@@ -184,7 +187,7 @@ if db['S_S'] < db['a']:
 			st.latex(latex(F_y_val)+f'[kN]')
 			db['F_y']=F_y_val.rhs
 		
-			if db['F_y'] < db['F_ED']:
+			if db['F_y'] < db['F_Ed']:
 				st.write('$F_y < F_{Ed}$ FIN! La estructura no cumple frente a patch loading')
 			
 			else:
@@ -208,7 +211,7 @@ if db['S_S'] < db['a']:
 				st.latex(latex(F_Rd_val))
 				db['F_Rd']=F_Rd_val.rhs
 			
-				if db['F_Rd']<db['F_ED']:
+				if db['F_Rd']<db['F_Ed']:
 					st.write("$F_{Rd}< F_{Ed}$,")
 					st.write('FIN! La estructura no cumple frente a patch loading')
 				
@@ -232,7 +235,7 @@ if db['S_S'] < db['a']:
 			st.latex(latex(F_Rd_val))
 			db['F_Rd']=F_Rd_val.rhs
 		
-			if db['F_Rd']<db['F_ED']:
+			if db['F_Rd']<db['F_Ed']:
 				st.write("$F_{Rd}< F_{Ed}$,")
 				
 				st.write('FIN! La estructura no cumple frente a patch loading')
