@@ -123,7 +123,7 @@ if db['S_S'] < db['a']:
 		st.latex(latex(l_e_func(Type)))
 		l_e_val=N(l_e_func(Type, **db). doit(),4)
 		st.latex(latex(l_e_val)+f'[m]')
-		db['l_e']=l_e_val.rhs
+		db['l_e']=l_e_val.rhs # check the conditions
 	st.write("Effective loaded length $l_y$")	
 	st.latex(latex(l_y_func(Type)))
 	
@@ -134,6 +134,7 @@ if db['S_S'] < db['a']:
 		if l_y_val.rhs>db['a']:
 			st.write("but l y ≤ distance between adjacent transverse stiffeners")
 			st.write(f'$l_y=$ {db["a"]} [m]')
+			#l_y_val.rhs=db['a']
 			db['l_y']=db['a']
 			#st.latex(latex(Eq[l_y,db['a']])+f'[m]')
 	st.latex(latex(l_y_val)+f'[m]')
@@ -214,8 +215,7 @@ if db['S_S'] < db['a']:
 				if db['F_Rd']<db['F_Ed']:
 					st.write("$F_{Rd}< F_{Ed}$,")
 					st.write('FIN! La estructura no cumple frente a patch loading')
-				
-			
+
 				st.latex(latex(eta_2_func(Type)))
 				st.latex(latex(eta_2_func(Type, **db)))
 				eta_2_val=N(eta_2_func(Type, **db). doit(),4)
