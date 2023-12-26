@@ -23,7 +23,6 @@ st.header('**Section 6: Resistance to transverse forces**')
 st.markdown('---')
 
 
-
 st.markdown('**6.1 Basis**')
 st.markdown(f"""
 			(1) The design resistance of the webs of rolled beams and welded girders should be determined in 
@@ -127,9 +126,7 @@ if db['s_s'] < db['a']:
 			
 		st.markdown("""Effective loaded length $l_y$""")	
 		st.latex(latex(l_y_func(Type)))
-		
 		l_y_val=N(l_y_func(Type, **db). doit(),4)
-	
 	
 		if Type=="A" or Type=="B": 
 			if l_y_val.rhs>db['a']:
@@ -158,8 +155,6 @@ if db['s_s'] < db['a']:
 		st.latex(latex(lambda_F_val))
 		db['lambda_F']=lambda_F_val.rhs
 
-		
-	
 		if db['lambda_F']<=0.5:
 			st.markdown("""The value of $\lambda_F=${db['lambda_F']} $< 0.5$ then we need to recalculate $m_2=0$""")
 			del db['m_2']
@@ -168,8 +163,6 @@ if db['s_s'] < db['a']:
 			del db['l_y']
 			del db['F_y']
 			del db['lambda_F']
-			
-
 			st.latex(latex(Eq(m_2,0)))
 			db['m_2']=0
 			if Type=="C":
@@ -193,7 +186,6 @@ if db['s_s'] < db['a']:
 		
 			if db['F_y'] < db['F_Ed']:
 				st.markdown("""$F_y < F_{Ed}$ FIN! La estructura no cumple frente a patch loading""")
-			
 			st.latex(latex(lambda_F_func(Type)))
 			st.latex(latex(lambda_F_func(Type, **db)))
 			lambda_F_val=N(lambda_F_func(Type, **db). doit(),4)
@@ -220,9 +212,7 @@ if db['s_s'] < db['a']:
 				if db['F_Rd']<db['F_Ed']:
 					st.write("$F_{Rd}< F_{Ed}$,")
 					st.write('FIN! La estructura no cumple frente a patch loading')
-					
 				else:
-
 					st.latex(latex(eta_2_func(Type)))
 					st.latex(latex(eta_2_func(Type, **db)))
 					eta_2_val=N(eta_2_func(Type, **db). doit(),4)
