@@ -208,11 +208,21 @@ def F_y_func(Type, **kwargs):
 
 def lambda_F_func(Type, **kwargs):
 	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
-	expr= sqrt(l_y*t_w*f_yw/F_cr)
-	expr=expr.subs(kwargs)
-	_eq=Eq(lambda_F,expr)
-	
+	expr = sqrt(F_y / F_cr)
+	expr = expr.subs(kwargs)
+	_eq = Eq(lambda_F, expr)
+
 	return _eq
+
+def lambda_F_func1(Type, **kwargs):
+	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
+	expr = sqrt(F_y) /sqrt(F_cr)
+	expr = expr.subs(kwargs)
+	_eq = Eq(lambda_F, expr)
+
+	return _eq
+
+
 
 def chi_F_func(Type,**kwargs):
 	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
@@ -230,12 +240,18 @@ def F_Rd_func(Type,**kwargs):
 	#_eq=_eq.subs(kwargs)
 	return _eq
 	
-def eta_2_func(Type,**kwargs):
+def eta_2_func(Type, **kwargs):
 	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
-	expr= F_Ed/F_Rd
-	expr=expr.subs(kwargs)
-	_eq=Eq(eta_2,expr)
-	#_eq=_eq.subs(kwargs)
+	expr = F_Ed / F_Rd
+	_eq = Eq(eta_2, expr)
+	_eq = _eq.subs(kwargs)
+	return _eq
+
+def eta_2_func1(Type, **kwargs):
+	kwargs = {eval(key): UnevaluatedExpr(value) for key, value in kwargs.items()}
+	expr = F_Ed * F_Rd**(-1)
+	_eq = Eq(eta_2, expr)
+	_eq = _eq.subs(kwargs)
 	return _eq
 
 
