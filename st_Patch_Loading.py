@@ -252,8 +252,6 @@ else:
 	st.write('FIN! La estructura no cumple frente a patch loading')
 
 
-
-
 st.markdown('---')
 
 
