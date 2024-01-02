@@ -141,8 +141,6 @@ if db['s_s'] < db['a']:
 				st.write(f'The result $l_y=${l_y_val.rhs} $>$ $a=$ {db["a"]}, due to $l_y$ must be smaller than the distance between adjacent transverse stiffeners $a$, so in this case $l_y$ will take the value equal to $a$={db["a"]}')
 				st.write(f'$l_y=$ {db["a"]} [m]')
 				db['l_y']=db['a']
-				
-		
 		db['l_y']=l_y_val.rhs
 		
 		st.markdown("""Calculation of plastic web yielding mechanism $F_y$""")
@@ -202,7 +200,6 @@ if db['s_s'] < db['a']:
 			
 			if db['lambda_F']<=0.5:
 				st.markdown(f""" $m_2=0$,  $\lambda_F=${db['lambda_F']} $< 0.5$, does not satisfy the condition""")
-			
 			else:
 				st.write("Reduction factor $\chi_F$ for effective length for resistance")
 				st.latex(latex(chi_F_func(Type)))
@@ -257,8 +254,6 @@ if db['s_s'] < db['a']:
 			image = Image.open("eta_1.png")
 			# Display the image
 			st.image(image, width=550)
-			
-			
 			
 else:
 	sst.write("$S_s> a$,")
