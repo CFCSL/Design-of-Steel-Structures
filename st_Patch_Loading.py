@@ -304,8 +304,9 @@ else:
 	sst.write("$S_s> a$,")
 	st.write('This calculation cannot be performed using patch loading. Proceed as if it were a compressed column with its reductions and potential buckling')
 
-
 st.markdown('---')
+
+st.markdown('**6.3 Sumarry results:**')
 
 
 
