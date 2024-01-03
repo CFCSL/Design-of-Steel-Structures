@@ -354,10 +354,7 @@ if 'eta_2' in db.keys() :
 	st.markdown(f"""
 	$\eta_2={db['eta_2']}$
 	""")
-	
 
-
-			
 
 
 
