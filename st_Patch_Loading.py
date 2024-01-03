@@ -85,8 +85,40 @@ Types=["A","B","C"]
 
 Type= st.selectbox("chose type of load applicatrion", options=Types)
 
+
+st.markdown("""**Data summary:**""")
+st.markdown(f"""
+			$F_{{Ed}}={F_Ed_val} [kN]$; 
+			
+			$t_w={t_w_val}[m]$;
+			
+			 $h_w= {h_w_val}[m]$; 
+			 
+			 $b_f={b_f_val}[m]$;
+			 
+			$f_{{yf}}={f_yf_val}[kN/m^2]$; 
+			
+			$t_f={t_f_val}[m]$;
+			
+			 $f_{{yw}}= {f_yw_val}[kN/m^2]$;
+			$\gamma_{{M1}}={gamma_M1_val}$;
+			
+			$E={E_val}[kN/m^2]$;
+			
+			 $s_s={s_s_val}[m]$;
+			 
+			  $a={a_val}[m]$
+			""")
+if Type=="C":
+	st.markdown(f"""
+				$c={c_val}[m]$
+				""")
+	
+
+
+
 if db['s_s'] < db['a']:
-	st.write('Calculation if Buckling coefficients using Figure 6.1 "Buckling coefficients for different types of load application from articale 6.1 basis"')
+	st.write('Calculation if Buckling coefficients using Figure 6.1 "Buckling coefficients for different types of load application from article 6.1 basis"')
 	st.latex(latex(k_F_func(Type)))
 	st.latex(latex(k_F_func(Type, **db)))
 	k_F_val=N(k_F_func(Type, **db). doit(),4)
@@ -97,7 +129,7 @@ if db['s_s'] < db['a']:
 		db['k_F']=6.0	
 	else:
 		db['k_F']=k_F_val.rhs
-	st.write('Calculation of Critical force using expression (6.5) from artical 6.4 "Reduction factor $\chi_F$ for efective length for resistance"')
+	st.write('Calculation of Critical force using expression (6.5) from article 6.4 "Reduction factor $\chi_F$ for efective length for resistance"')
 	st.latex(latex(F_cr_func(Type)))
 	st.latex(latex(F_cr_func(Type, **db)))
 	F_cr_val=N(F_cr_func(Type, **db). doit(),4)
