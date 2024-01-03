@@ -23,7 +23,7 @@ st.header('**Section 6: Resistance to transverse forces**')
 st.markdown('---')
 
 
-st.markdown('**6.1 Basis**')
+st.subheader('**6.1 Basis**')
 st.markdown(f"""
 			(1) The design resistance of the webs of rolled beams and welded girders should be determined in 
 accordance with 6.2, provided that the compression flange is adequately restrained in the lateral direction.
@@ -88,7 +88,7 @@ db={'F_Ed':F_Ed_val, 't_w': t_w_val, 'h_w': h_w_val, 'b_f':b_f_val,
 
 
 
-st.markdown("""**Data summary:**""")
+st.subheader("""**Datas:**""")
 st.markdown(f"""
 			Type of load application: ${Type}$
 			
@@ -110,7 +110,7 @@ if Type=="C":
 				""")
 st.markdown('---')
 	
-st.markdown('**6.2 Calculations**')
+st.subheader('**6.2 Calculations**')
 
 
 if db['s_s'] < db['a']:
@@ -239,12 +239,12 @@ if db['s_s'] < db['a']:
 				
 			st.latex(latex(lambda_F_func(Type)))
 			st.latex(latex(lambda_F_func1(Type, **db)))
-			lambda_F_val=N(lambda_F_func(Type, **db). doit(),8)
+			lambda_F_val=N(lambda_F_func(Type, **db). doit(),3)
 			st.latex(latex(lambda_F_val))
 			db['lambda_F']=lambda_F_val.rhs
 			
 			if db['lambda_F']<=0.5:
-				st.markdown(f""" $m_2=0$,  $\lambda_F=${db['lambda_F']} $< 0.5$, does not satisfy the condition""")
+				st.markdown(f""" $m_2=0$,  $\lambda_F={db['lambda_F']} < 0.5$, does not satisfy the condition""")
 			else:
 				st.write("Reduction factor $\chi_F$ for effective length for resistance")
 				st.latex(latex(chi_F_func(Type)))
@@ -301,12 +301,64 @@ if db['s_s'] < db['a']:
 			st.image(image, width=550)
 			
 else:
-	sst.write("$S_s> a$,")
+	st.write("$S_s> a$,")
 	st.write('This calculation cannot be performed using patch loading. Proceed as if it were a compressed column with its reductions and potential buckling')
 
 st.markdown('---')
 
-st.markdown('**6.3 Sumarry results:**')
+st.subheader('**6.3 Summary Results:**')
+
+# =============================================================================
+# list_to_show=['F_cr', 'k_F', 'F_y', 'l_y','m_1','m_2']
+# 
+# if db.keys() in list_to_show:
+# =============================================================================
+if 'F_cr' in db.keys() :
+	st.markdown(f"""
+	$F_{{cr}}={db['F_cr']}[kN]$
+	""")
+if 'k_F' in db.keys() :
+	st.markdown(f"""
+	$k_F={db['k_F']}$
+	""")
+if 'F_y' in db.keys() :
+	st.markdown(f"""
+	$F_{{y}}={db["F_y"]} [kN]$
+	""")
+if 'l_y' in db.keys() :
+	st.markdown(f"""
+	$l_y={db['l_y']}[m]$
+	""")
+if 'm_1' in db.keys() :
+	st.markdown(f"""
+	$m_1={db['m_1']}[m]$
+	""")
+if 'm_2' in db.keys() :
+	st.markdown(f"""
+	$m_2={db['m_2']}[m]$
+	""")
+			
+if 'F_Rd' in db.keys() :
+	st.markdown(f"""
+	$F_{{Rd}}={db['F_Rd']}$
+	""")
+if 'lambda_F' in db.keys() :
+	st.markdown(f"""
+	$\lambda_F={db['lambda_F']}$
+	""")
+if 'chi_F' in db.keys() :
+	st.markdown(f"""
+	$\chi_F={db['chi_F']}$
+	""")
+if 'eta_2' in db.keys() :
+	st.markdown(f"""
+	$\eta_2={db['eta_2']}$
+	""")
+	
+
+
+			
+
 
 
 
