@@ -121,7 +121,7 @@ if db['s_s'] < db['a']:
 	st.latex(latex(k_F_val))
 	
 	if Type=="C" and k_F_val.rhs>6.0:
-		st.markdown("""$k_F> 6.0$ in this case, then $k_F$ will take the value equal $6.0$""")
+		st.markdown("""$k_F$ must be smaller than  $6.0$ in this case, then $k_F$ will take the value equal $6.0$""")
 		db['k_F']=6.0	
 	else:
 		db['k_F']=k_F_val.rhs
