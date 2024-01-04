@@ -125,7 +125,7 @@ if db['s_s'] < db['a']:
 		db['k_F']=6.0	
 	else:
 		db['k_F']=k_F_val.rhs
-	st.write('Calculation of Critical force using expression (6.5) from article 6.4 "Reduction factor $\chi_F$ for effective length for resistance"')
+	st.write('Calculation of critical force using expression (6.5) from article 6.4 "Reduction factor $\chi_F$ for effective length for resistance"')
 	st.latex(latex(F_cr_func(Type)))
 	st.latex(latex(F_cr_func(Type, **db)))
 	F_cr_val=N(F_cr_func(Type, **db). doit(),4)
@@ -174,7 +174,7 @@ if db['s_s'] < db['a']:
 		else:
 			db['l_y']=l_y_val.rhs
 		
-		st.markdown("""Calculation of plastic web yielding mechanism for non dimensional slenderness $F_y$""")
+		st.markdown("""Calculation of plastic web yielding mechanism, $F_y$, for non dimensional slenderness """)
 		st.latex(latex(F_y_func(Type)))
 		st.latex(latex(F_y_func(Type, **db)))
 		F_y_val=N(F_y_func(Type, **db). doit(),6)
@@ -184,9 +184,9 @@ if db['s_s'] < db['a']:
 		if db['F_y'] < db['F_Ed']:
 			st.write('$F_y < F_{Ed}$ The structure fails to meet patch loading requirements. Resize using larger profiles or consider bringing stifferners closer')
 	
-		st.markdown("""$\lambda_F$, non dimensional Slenderness using modification of expression (6.4) from article 6.4 "Reduction factor $\chi_F$ for efective lenght for resistance" """)
+		st.markdown("""Calculation of $\lambda_F$, non dimensional slenderness using modification of expression (6.4) from article 6.4 "Reduction factor $\chi_F$ for efective lenght for resistance" """)
 		st.latex(latex(lambda_F_func(Type)))
-		#st.latex(latex(lambda_F_func1(Type, **db)))
+		st.latex(latex(lambda_F_func1(Type, **db)))
 		lambda_F_val=N(lambda_F_func(Type, **db). doit(),3)
 		st.latex(latex(lambda_F_val))
 		db['lambda_F']=lambda_F_val.rhs
@@ -252,11 +252,12 @@ if db['s_s'] < db['a']:
 				chi_F_val=N(chi_F_func(Type, **db). doit(),4)
 				st.latex(latex(chi_F_val))
 				db['chi_F']=chi_F_val.rhs
-			
+				
+				st.write('Calculation of design strength $F_{Rd}$')
 				st.latex(latex(F_Rd_func(Type)))
 				st.latex(latex(F_Rd_func(Type, **db)))
 				F_Rd_val=N(F_Rd_func(Type, **db). doit(),4)
-				st.latex(latex(F_Rd_val))
+				st.latex(latex(F_Rd_val)+f'[kN]')
 				db['F_Rd']=F_Rd_val.rhs
 		
 				if db['F_Rd']<db['F_Ed']:
@@ -276,11 +277,12 @@ if db['s_s'] < db['a']:
 			chi_F_val=N(chi_F_func(Type, **db). doit(),4)
 			st.latex(latex(chi_F_val))
 			db['chi_F']=chi_F_val.rhs
-		
+			
+			st.write('Calculation of design strength $F_{Rd}$')
 			st.latex(latex(F_Rd_func(Type)))
 			st.latex(latex(F_Rd_func(Type, **db)))
 			F_Rd_val=N(F_Rd_func(Type, **db). doit(),6)
-			st.latex(latex(F_Rd_val))
+			st.latex(latex(F_Rd_val)+f'[kN]')
 			db['F_Rd']=F_Rd_val.rhs
 		
 			if db['F_Rd']<db['F_Ed']:
@@ -291,7 +293,7 @@ if db['s_s'] < db['a']:
 			st.write("The section meets patch loading requirements with a safety factor of")
 			st.latex(latex(eta_2_func(Type)))
 
-			#st.latex(latex(eta_2_func1(Type, **db)))
+			st.latex(latex(eta_2_func1(Type, **db)))
 			eta_2_val=N(eta_2_func(Type, **db). doit(),3)
 			st.latex(latex(eta_2_val))
 			db['eta_2']=eta_2_val.rhs
