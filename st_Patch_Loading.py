@@ -114,13 +114,13 @@ if Type=="C":
 				""")
 st.markdown('---')
 
-options=['**6.2 Calculations**']
-section_62 = st.checkbox(options[0])
+# =============================================================================
+# options=['**6.2 Calculations**']
+# section_62 = st.checkbox(options[0])
+# =============================================================================
 
+with st.expander("**6.2 Calculations**"):
 
-if section_62:
-	
-	#st.subheader('**6.2 Calculations**')
 	
 	if db['s_s'] < db['a']:
 		st.write('Calculation of Buckling coefficient using Figure 6.1 "Buckling coefficients for different types of load application" from article 6.1 basis')
