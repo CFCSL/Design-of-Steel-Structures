@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 from Patch_Loading import *
-from logo_header import *
+
 from helper_functions import *
 
 import matplotlib.pyplot as plt
@@ -18,6 +18,7 @@ init_printing()
 
 logo()
 header()
+
 st.markdown('---')
 st.title('**These calculations base on the document Eurocode 3: Design of steel structures - Part 1-5:Plated structural elements**')
 
