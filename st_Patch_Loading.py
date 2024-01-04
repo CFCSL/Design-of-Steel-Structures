@@ -119,7 +119,7 @@ st.markdown('---')
 # section_62 = st.checkbox(options[0])
 # =============================================================================
 
-with st.expander("**6.2 Calculations**"):
+with st.expander('# **6.2 Calculations**', expanded=False):
 
 	
 	if db['s_s'] < db['a']:
