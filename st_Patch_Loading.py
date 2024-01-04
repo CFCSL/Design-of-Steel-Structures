@@ -114,177 +114,77 @@ if Type=="C":
 				""")
 st.markdown('---')
 
-# =============================================================================
-# st.subheader('**Summary Results:**')
-# 
-# # =============================================================================
-# # list_to_show=['F_cr', 'k_F', 'F_y', 'l_y','m_1','m_2']
-# # 
-# # if db.keys() in list_to_show:
-# # =============================================================================
-# #if 'F_cr' in db.keys() :
-# st.markdown(f"""
-# $F_{{cr}}={N(F_cr_func(Type, **db). doit(),6).rhs}$  $[kN]$
-# """)
-# #if 'k_F' in db.keys() :
-# st.markdown(f"""
-# $k_F={db['k_F']}$
-# """)
-# #if 'F_y' in db.keys() :
-# st.markdown(f"""
-# $F_{{y}}={db["F_y"]}$  $[kN]$
-# """)
-# #if 'l_y' in db.keys() :
-# st.markdown(f"""
-# $l_y={db['l_y']}$ $[m]$
-# """)
-# #if 'm_1' in db.keys() :
-# st.markdown(f"""
-# $m_1={db['m_1']}$ $[m]$
-# """)
-# #if 'm_2' in db.keys() :
-# st.markdown(f"""
-# $m_2={db['m_2']}$ $[m]$
-# """)
-# 		
-# #if 'F_Rd' in db.keys() :
-# st.markdown(f"""
-# $F_{{Rd}}={db['F_Rd']}$
-# """)
-# #if 'lambda_F' in db.keys() :
-# st.markdown(f"""
-# $\lambda_F={db['lambda_F']}$
-# """)
-# #if 'chi_F' in db.keys() :
-# st.markdown(f"""
-# $\chi_F={db['chi_F']}$
-# """)
-# #if 'eta_2' in db.keys() :
-# st.markdown(f"""
-# $\eta_2={db['eta_2']}$
-# """)
-# =============================================================================
-	
-st.subheader('**6.2 Calculations**')
+options=['**6.2 Calculations**']
+section_62 = st.checkbox(options[0])
 
-if db['s_s'] < db['a']:
-	st.write('Calculation of Buckling coefficient using Figure 6.1 "Buckling coefficients for different types of load application" from article 6.1 basis')
-	st.latex(latex(k_F_func(Type)))
-	st.latex(latex(k_F_func(Type, **db)))
-	k_F_val=N(k_F_func(Type, **db). doit(),4)
-	st.latex(latex(k_F_val))
+
+if section_62:
 	
-	if Type=="C" and k_F_val.rhs>6.0:
-		st.markdown("""$k_F$ must be smaller than  $6.0$, then $k_F$ will take the value $6.0$""")
-		db['k_F']=6.0	
-	else:
-		db['k_F']=k_F_val.rhs
-	st.write('Calculation of critical force using expression (6.5) from article 6.4 "Reduction factor $\chi_F$ for effective length for resistance"')
-	st.latex(latex(F_cr_func(Type)))
-	st.latex(latex(F_cr_func(Type, **db)))
-	F_cr_val=N(F_cr_func(Type, **db). doit(),7)
-	st.latex(latex(F_cr_val)+f'[kN]')
-	db['F_cr']=F_cr_val.rhs
+	#st.subheader('**6.2 Calculations**')
 	
-	if db['F_cr'] < db['F_Ed']:
-		st.markdown("""$F_{cr}< F_{Ed}$,""")
-		st.markdown("""The structure falls with patch loading by significant margin. Resize using much larger profiles""")
-	else:
-		st.markdown("""Using expression (6.8) from article 6.5 "Effective loaded length", calculate $m_1$""")
-		st.latex(latex(m_1_func(Type)))
-		st.latex(latex(m_1_func(Type, **db)))
-		m_1_val=N(m_1_func(Type, **db). doit(),4)
-		st.latex(latex(m_1_val)+f'[m]')
-		db['m_1']=m_1_val.rhs
+	if db['s_s'] < db['a']:
+		st.write('Calculation of Buckling coefficient using Figure 6.1 "Buckling coefficients for different types of load application" from article 6.1 basis')
+		st.latex(latex(k_F_func(Type)))
+		st.latex(latex(k_F_func(Type, **db)))
+		k_F_val=N(k_F_func(Type, **db). doit(),4)
+		st.latex(latex(k_F_val))
 		
-		st.markdown("""Using expression (6.9) from article 6.5 "Effective loaded length", calculate $m_2$""")
-		st.latex(latex(m_2_func(Type)))
-		st.latex(latex(m_2_func(Type, **db)))
-		m_2_val=N(m_2_func(Type, **db). doit(),4)
-		st.latex(latex(m_2_val)+f'[m]')
-		db['m_2']=m_2_val.rhs
-	
-		if Type=="C":
-			st.markdown("""Calculation of effective length $l_e$""")
-			st.latex(latex(l_e_func(Type)))
-			st.latex(latex(l_e_func(Type, **db)))
-			l_e_val=N(l_e_func(Type, **db). doit(),4)
-			st.latex(latex(l_e_val)+f'[m]')
-			db['l_e']=l_e_val.rhs # check the conditions
-			
-		st.markdown("""Using expression (6.10) from article 6.5 "Effective loaded length", calculate $l_y$""")	
-		st.latex(latex(l_y_func(Type)))
-		l_y_val=N(l_y_func(Type, **db). doit(),4)
-		st.latex(latex(l_y_val)+f'[m]')
-	
-		if Type=="A" or Type=="B": 
-			if l_y_val.rhs<=db['a']:
-				st.write(f'$l_y=${l_y_val.rhs} $<$ $a=$ {db["a"]} satisfies the condition $l_y<a$')
-			if l_y_val.rhs>db['a']:
-				st.write(f'The result $l_y={l_y_val.rhs} > a= {db["a"]}$, $l_y$ must be smaller than the distance between adjacent transverse stiffeners $a$, so in this case $l_y$ will take the value of $a={db["a"]}$')
-				st.write(f'$l_y= {db["a"]} [m]$')
-				db['l_y']=db['a']
-			else:		
-				db['l_y']=l_y_val.rhs
+		if Type=="C" and k_F_val.rhs>6.0:
+			st.markdown("""$k_F$ must be smaller than  $6.0$, then $k_F$ will take the value $6.0$""")
+			db['k_F']=6.0	
 		else:
-			db['l_y']=l_y_val.rhs
+			db['k_F']=k_F_val.rhs
+		st.write('Calculation of critical force using expression (6.5) from article 6.4 "Reduction factor $\chi_F$ for effective length for resistance"')
+		st.latex(latex(F_cr_func(Type)))
+		st.latex(latex(F_cr_func(Type, **db)))
+		F_cr_val=N(F_cr_func(Type, **db). doit(),7)
+		st.latex(latex(F_cr_val)+f'[kN]')
+		db['F_cr']=F_cr_val.rhs
 		
-		st.markdown("""Calculation of plastic web yielding mechanism, $F_y$, for non dimensional slenderness """)
-		st.latex(latex(F_y_func(Type)))
-		st.latex(latex(F_y_func(Type, **db)))
-		F_y_val=N(F_y_func(Type, **db). doit(),6)
-		st.latex(latex(F_y_val)+f'[kN]')
-		db['F_y']=F_y_val.rhs
-	
-		if db['F_y'] < db['F_Ed']:
-			st.write('$F_y < F_{Ed}$ The structure fails to meet patch loading requirements. Resize using larger profiles or consider bringing stifferners closer')
-	
-		st.markdown("""Calculation of $\lambda_F$, non dimensional slenderness using modification of expression (6.4) from article 6.4 "Reduction factor $\chi_F$ for efective lenght for resistance" """)
-		st.latex(latex(lambda_F_func(Type)))
-		st.latex(latex(lambda_F_func1(Type, **db)))
-		lambda_F_val=N(lambda_F_func(Type, **db). doit(),3)
-		st.latex(latex(lambda_F_val))
-		db['lambda_F']=lambda_F_val.rhs
-
-		if db['lambda_F']<=0.5:
-			st.write(f'The value of $\lambda_F= {db["lambda_F"]} < 0.5$ then we need to recalculate $m_2=0$')
-			del db['m_2']
-			if 'l_e' in db.keys():
-				del db['l_e']
-			del db['l_y']
-			del db['F_y']
-			del db['lambda_F']
-			st.latex(latex(Eq(m_2,0)))
-			db['m_2']=0
-
-
+		if db['F_cr'] < db['F_Ed']:
+			st.markdown("""$F_{cr}< F_{Ed}$,""")
+			st.markdown("""The structure falls with patch loading by significant margin. Resize using much larger profiles""")
+		else:
+			st.markdown("""Using expression (6.8) from article 6.5 "Effective loaded length", calculate $m_1$""")
+			st.latex(latex(m_1_func(Type)))
+			st.latex(latex(m_1_func(Type, **db)))
+			m_1_val=N(m_1_func(Type, **db). doit(),4)
+			st.latex(latex(m_1_val)+f'[m]')
+			db['m_1']=m_1_val.rhs
+			
+			st.markdown("""Using expression (6.9) from article 6.5 "Effective loaded length", calculate $m_2$""")
+			st.latex(latex(m_2_func(Type)))
+			st.latex(latex(m_2_func(Type, **db)))
+			m_2_val=N(m_2_func(Type, **db). doit(),4)
+			st.latex(latex(m_2_val)+f'[m]')
+			db['m_2']=m_2_val.rhs
+		
 			if Type=="C":
 				st.markdown("""Calculation of effective length $l_e$""")
 				st.latex(latex(l_e_func(Type)))
 				st.latex(latex(l_e_func(Type, **db)))
-				l_e_val=N(l_e_func(Type, **db). doit(),3)
+				l_e_val=N(l_e_func(Type, **db). doit(),4)
 				st.latex(latex(l_e_val)+f'[m]')
 				db['l_e']=l_e_val.rhs # check the conditions
 				
 			st.markdown("""Using expression (6.10) from article 6.5 "Effective loaded length", calculate $l_y$""")	
 			st.latex(latex(l_y_func(Type)))
-			l_y_val=N(l_y_func(Type, **db). doit(),3)
+			l_y_val=N(l_y_func(Type, **db). doit(),4)
 			st.latex(latex(l_y_val)+f'[m]')
 		
 			if Type=="A" or Type=="B": 
 				if l_y_val.rhs<=db['a']:
-					st.write(f'$l_y={l_y_val.rhs} < a= {db["a"]}$ satisfies the condition $l_y<a$')
+					st.write(f'$l_y=${l_y_val.rhs} $<$ $a=$ {db["a"]} satisfies the condition $l_y<a$')
 				if l_y_val.rhs>db['a']:
-					st.write(f'The result $l_y=${l_y_val.rhs} $>$ $a=$ {db["a"]}, $l_y$ must be smaller than the distance between adjacent transverse stiffeners $a$, so in this case $l_y$ will take the value of $a$={db["a"]}')
-					st.write(f'$l_y=$ {db["a"]} [m]')
+					st.write(f'The result $l_y={l_y_val.rhs} > a= {db["a"]}$, $l_y$ must be smaller than the distance between adjacent transverse stiffeners $a$, so in this case $l_y$ will take the value of $a={db["a"]}$')
+					st.write(f'$l_y= {db["a"]} [m]$')
 					db['l_y']=db['a']
-				else:
+				else:		
 					db['l_y']=l_y_val.rhs
 			else:
 				db['l_y']=l_y_val.rhs
-		
-
 			
+			st.markdown("""Calculation of plastic web yielding mechanism, $F_y$, for non dimensional slenderness """)
 			st.latex(latex(F_y_func(Type)))
 			st.latex(latex(F_y_func(Type, **db)))
 			F_y_val=N(F_y_func(Type, **db). doit(),6)
@@ -292,18 +192,98 @@ if db['s_s'] < db['a']:
 			db['F_y']=F_y_val.rhs
 		
 			if db['F_y'] < db['F_Ed']:
-				st.markdown("""$F_y < F_{Ed}$ The structure falls with patch loading by significant margin. Resize using much larger profiles""")
-				
+				st.write('$F_y < F_{Ed}$ The structure fails to meet patch loading requirements. Resize using larger profiles or consider bringing stifferners closer')
+		
+			st.markdown("""Calculation of $\lambda_F$, non dimensional slenderness using modification of expression (6.4) from article 6.4 "Reduction factor $\chi_F$ for efective lenght for resistance" """)
 			st.latex(latex(lambda_F_func(Type)))
 			st.latex(latex(lambda_F_func1(Type, **db)))
 			lambda_F_val=N(lambda_F_func(Type, **db). doit(),3)
 			st.latex(latex(lambda_F_val))
 			db['lambda_F']=lambda_F_val.rhs
-			
+	
 			if db['lambda_F']<=0.5:
-				st.markdown(f""" $m_2=0$,  $\lambda_F={db['lambda_F']} < 0.5$, does not satisfy the condition""")
+				st.write(f'The value of $\lambda_F= {db["lambda_F"]} < 0.5$ then we need to recalculate $m_2=0$')
+				del db['m_2']
+				if 'l_e' in db.keys():
+					del db['l_e']
+				del db['l_y']
+				del db['F_y']
+				del db['lambda_F']
+				st.latex(latex(Eq(m_2,0)))
+				db['m_2']=0
+	
+	
+				if Type=="C":
+					st.markdown("""Calculation of effective length $l_e$""")
+					st.latex(latex(l_e_func(Type)))
+					st.latex(latex(l_e_func(Type, **db)))
+					l_e_val=N(l_e_func(Type, **db). doit(),3)
+					st.latex(latex(l_e_val)+f'[m]')
+					db['l_e']=l_e_val.rhs # check the conditions
+					
+				st.markdown("""Using expression (6.10) from article 6.5 "Effective loaded length", calculate $l_y$""")	
+				st.latex(latex(l_y_func(Type)))
+				l_y_val=N(l_y_func(Type, **db). doit(),3)
+				st.latex(latex(l_y_val)+f'[m]')
+			
+				if Type=="A" or Type=="B": 
+					if l_y_val.rhs<=db['a']:
+						st.write(f'$l_y={l_y_val.rhs} < a= {db["a"]}$ satisfies the condition $l_y<a$')
+					if l_y_val.rhs>db['a']:
+						st.write(f'The result $l_y=${l_y_val.rhs} $>$ $a=$ {db["a"]}, $l_y$ must be smaller than the distance between adjacent transverse stiffeners $a$, so in this case $l_y$ will take the value of $a$={db["a"]}')
+						st.write(f'$l_y=$ {db["a"]} [m]')
+						db['l_y']=db['a']
+					else:
+						db['l_y']=l_y_val.rhs
+				else:
+					db['l_y']=l_y_val.rhs
+			
+	
+				
+				st.latex(latex(F_y_func(Type)))
+				st.latex(latex(F_y_func(Type, **db)))
+				F_y_val=N(F_y_func(Type, **db). doit(),6)
+				st.latex(latex(F_y_val)+f'[kN]')
+				db['F_y']=F_y_val.rhs
+			
+				if db['F_y'] < db['F_Ed']:
+					st.markdown("""$F_y < F_{Ed}$ The structure falls with patch loading by significant margin. Resize using much larger profiles""")
+					
+				st.latex(latex(lambda_F_func(Type)))
+				st.latex(latex(lambda_F_func1(Type, **db)))
+				lambda_F_val=N(lambda_F_func(Type, **db). doit(),3)
+				st.latex(latex(lambda_F_val))
+				db['lambda_F']=lambda_F_val.rhs
+				
+				if db['lambda_F']<=0.5:
+					st.markdown(f""" $m_2=0$,  $\lambda_F={db['lambda_F']} < 0.5$, does not satisfy the condition""")
+				else:
+					st.write("Reduction factor $\chi_F$ for effective length for resistance")
+					st.latex(latex(chi_F_func(Type)))
+					st.latex(latex(chi_F_func(Type, **db)))
+					chi_F_val=N(chi_F_func(Type, **db). doit(),4)
+					st.latex(latex(chi_F_val))
+					db['chi_F']=chi_F_val.rhs
+					
+					st.write('Calculation of design strength $F_{Rd}$')
+					st.latex(latex(F_Rd_func(Type)))
+					st.latex(latex(F_Rd_func(Type, **db)))
+					F_Rd_val=N(F_Rd_func(Type, **db). doit(),4)
+					st.latex(latex(F_Rd_val)+f'[kN]')
+					db['F_Rd']=F_Rd_val.rhs
+			
+					if db['F_Rd']<db['F_Ed']:
+						st.markdown("""$F_y < F_{Ed} $The structure fails to meet patch loading requirements. Resize using larger profiles or consider bringing stifferners closer""")
+						#st.write("$F_{Rd}< F_{Ed}$,")
+						#st.write('FIN! La estructura no cumple frente a patch loading')
+					else:
+						st.latex(latex(eta_2_func(Type)))
+						st.latex(latex(eta_2_func(Type, **db)))
+						eta_2_val=N(eta_2_func(Type, **db). doit(),4)
+						st.latex(latex(eta_2_val))
+						db['eta_2']=eta_2_val.rhs
 			else:
-				st.write("Reduction factor $\chi_F$ for effective length for resistance")
+				st.write("Calculation of reduction factor $\chi_F$ for effective length for resistance using expression (6.3)")
 				st.latex(latex(chi_F_func(Type)))
 				st.latex(latex(chi_F_func(Type, **db)))
 				chi_F_val=N(chi_F_func(Type, **db). doit(),4)
@@ -313,55 +293,31 @@ if db['s_s'] < db['a']:
 				st.write('Calculation of design strength $F_{Rd}$')
 				st.latex(latex(F_Rd_func(Type)))
 				st.latex(latex(F_Rd_func(Type, **db)))
-				F_Rd_val=N(F_Rd_func(Type, **db). doit(),4)
+				F_Rd_val=N(F_Rd_func(Type, **db). doit(),6)
 				st.latex(latex(F_Rd_val)+f'[kN]')
 				db['F_Rd']=F_Rd_val.rhs
-		
+			
 				if db['F_Rd']<db['F_Ed']:
-					st.markdown("""$F_y < F_{Ed} $The structure fails to meet patch loading requirements. Resize using larger profiles or consider bringing stifferners closer""")
-					#st.write("$F_{Rd}< F_{Ed}$,")
-					#st.write('FIN! La estructura no cumple frente a patch loading')
-				else:
-					st.latex(latex(eta_2_func(Type)))
-					st.latex(latex(eta_2_func(Type, **db)))
-					eta_2_val=N(eta_2_func(Type, **db). doit(),4)
-					st.latex(latex(eta_2_val))
-					db['eta_2']=eta_2_val.rhs
-		else:
-			st.write("Calculation of reduction factor $\chi_F$ for effective length for resistance using expression (6.3)")
-			st.latex(latex(chi_F_func(Type)))
-			st.latex(latex(chi_F_func(Type, **db)))
-			chi_F_val=N(chi_F_func(Type, **db). doit(),4)
-			st.latex(latex(chi_F_val))
-			db['chi_F']=chi_F_val.rhs
-			
-			st.write('Calculation of design strength $F_{Rd}$')
-			st.latex(latex(F_Rd_func(Type)))
-			st.latex(latex(F_Rd_func(Type, **db)))
-			F_Rd_val=N(F_Rd_func(Type, **db). doit(),6)
-			st.latex(latex(F_Rd_val)+f'[kN]')
-			db['F_Rd']=F_Rd_val.rhs
-		
-			if db['F_Rd']<db['F_Ed']:
-				st.write("$F_{Rd}< F_{Ed}$,")
+					st.write("$F_{Rd}< F_{Ed}$,")
+					
+					st.markdown("""The structure fails to meet patch loading requirements. Resize using larger profiles or consider bringing stifferners closer""")
 				
-				st.markdown("""The structure fails to meet patch loading requirements. Resize using larger profiles or consider bringing stifferners closer""")
-			
-			st.write("The section meets patch loading requirements with a safety factor of")
-			st.latex(latex(eta_2_func(Type)))
+				st.write("The section meets patch loading requirements with a safety factor of")
+				st.latex(latex(eta_2_func(Type)))
+	
+				st.latex(latex(eta_2_func1(Type, **db)))
+				eta_2_val=N(eta_2_func(Type, **db). doit(),3)
+				st.latex(latex(eta_2_val))
+				db['eta_2']=eta_2_val.rhs
+				# Load an image from file
+				image = Image.open("eta_1.png")
+				# Display the image
+				st.image(image, width=550)
+				
+	else:
+		st.write("$S_s> a$,")
+		st.write('This calculation cannot be performed using patch loading. Proceed as if it were a compressed column with its reductions and potential buckling')
 
-			st.latex(latex(eta_2_func1(Type, **db)))
-			eta_2_val=N(eta_2_func(Type, **db). doit(),3)
-			st.latex(latex(eta_2_val))
-			db['eta_2']=eta_2_val.rhs
-			# Load an image from file
-			image = Image.open("eta_1.png")
-			# Display the image
-			st.image(image, width=550)
-			
-else:
-	st.write("$S_s> a$,")
-	st.write('This calculation cannot be performed using patch loading. Proceed as if it were a compressed column with its reductions and potential buckling')
 
 st.markdown('---')
 
