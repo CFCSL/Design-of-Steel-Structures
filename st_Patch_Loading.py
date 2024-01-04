@@ -70,7 +70,7 @@ t_f_val = st.sidebar.number_input('$t_{f} [m]$-Espesor del ala superior/ Flange 
 
 f_yw_val = st.sidebar.number_input('$f_{yw} [kN/m^2]$-Resistencia del alma/ The yield strength of the web', value= 255.0e3, min_value=0.0, step=0.10, format="%.3f")
 
-gamma_M1_val = st.sidebar.number_input('$\\gamma_{M1}$-Coefficiente seguridad ($=1.1$ recomendado)/ Security coeficient', value= 1.1, min_value=0.0, step=0.01, format="%.3f")
+gamma_M1_val = st.sidebar.number_input('$\\gamma_{M1}$-Coeficiente seguridad )/ Security coeficient(recommended $1.1$ )', value= 1.1, min_value=0.0, step=0.01, format="%.3f")
 
 E_val = st.sidebar.number_input('$E [kN/m^2]$-Módulo de elasticidad/Elasticity module (recommended $200e6 [kN/m^2]$)' , value= 200.0e6, min_value=1.0e6, step=1.0e6, format="%.1f")
 
@@ -78,7 +78,7 @@ s_s_val = st.sidebar.number_input('$s_s [m]$-Distancia de apoyo de la carga/ Lon
 
 a_val = st.sidebar.number_input('$a [m]$-Distancia entre rigidizadores/ Length of a stiffened or unstiffened plate', value= 1185.0e-3, min_value=0.0, step=0.10, format="%.3f")
 
-c_val = st.sidebar.number_input('$c [m]$-Distancia (utilized exclusively when type C presented)', value= 900e-3, min_value=0.0, step=0.10, format="%.3f")
+c_val = st.sidebar.number_input('$c [m]$-Distancia/Distance (utilized exclusively when type C presented, see Figure 6.1)', value= 900e-3, min_value=0.0, step=0.10, format="%.3f")
 
 db={'F_Ed':F_Ed_val, 't_w': t_w_val, 'h_w': h_w_val, 'b_f':b_f_val,
 	"f_yf": f_yf_val, "t_f":t_f_val, "f_yw":f_yw_val, "gamma_M1": gamma_M1_val,
@@ -92,17 +92,17 @@ st.subheader("""**Datas:**""")
 st.markdown(f"""
 			Type of load application: ${Type}$
 			
-			$F_{{Ed}}={F_Ed_val} [kN]$; 
-			$t_w={t_w_val}[m]$;
-			 $h_w= {h_w_val}[m]$; 
-			 $b_f={b_f_val}[m]$;
-			$f_{{yf}}={f_yf_val}[kN/m^2]$; 
-			$t_f={t_f_val}[m]$;
-			 $f_{{yw}}= {f_yw_val}[kN/m^2]$;
-			$\gamma_{{M1}}={gamma_M1_val}$;
-			$E={E_val}[kN/m^2]$;
-			$s_s={s_s_val}[m]$;
-			$a={a_val}[m]$
+			$F_{{Ed}}={F_Ed_val}$  $[kN]$; 
+			$\quad$ $t_w={t_w_val}$ $[m]$;
+			$\quad$  $h_w= {h_w_val}$ $[m]$; 
+			$\quad$  $b_f={b_f_val}$ $[m]$;
+			$\quad$ $f_{{yf}}={f_yf_val}$ $[kN/m^2]$; 
+			$\quad$ $t_f={t_f_val}$ $[m]$;
+			$\quad$  $f_{{yw}}= {f_yw_val}$ $[kN/m^2]$;
+			$\quad$ $\gamma_{{M1}}={gamma_M1_val}$;
+			$\quad$ $E={E_val}$ $[kN/m^2]$;
+			$\quad$ $s_s={s_s_val}$ $[m]$;
+			$\quad$ $a={a_val}$ $[m]$
 			""")
 if Type=="C":
 	st.markdown(f"""
@@ -114,7 +114,7 @@ st.subheader('**6.2 Calculations**')
 
 
 if db['s_s'] < db['a']:
-	st.write('Calculation of Buckling coefficients using Figure 6.1 "Buckling coefficients for different types of load application" from article 6.1 basis"')
+	st.write('Calculation of Buckling coefficient using Figure 6.1 "Buckling coefficients for different types of load application" from article 6.1 basis')
 	st.latex(latex(k_F_func(Type)))
 	st.latex(latex(k_F_func(Type, **db)))
 	k_F_val=N(k_F_func(Type, **db). doit(),4)
@@ -315,7 +315,7 @@ st.subheader('**6.3 Summary Results:**')
 # =============================================================================
 if 'F_cr' in db.keys() :
 	st.markdown(f"""
-	$F_{{cr}}={db['F_cr']}[kN]$
+	$F_{{cr}}={db['F_cr']}$  $[kN]$
 	""")
 if 'k_F' in db.keys() :
 	st.markdown(f"""
@@ -323,19 +323,19 @@ if 'k_F' in db.keys() :
 	""")
 if 'F_y' in db.keys() :
 	st.markdown(f"""
-	$F_{{y}}={db["F_y"]} [kN]$
+	$F_{{y}}={db["F_y"]}$  $[kN]$
 	""")
 if 'l_y' in db.keys() :
 	st.markdown(f"""
-	$l_y={db['l_y']}[m]$
+	$l_y={db['l_y']}$ $[m]$
 	""")
 if 'm_1' in db.keys() :
 	st.markdown(f"""
-	$m_1={db['m_1']}[m]$
+	$m_1={db['m_1']}$ $[m]$
 	""")
 if 'm_2' in db.keys() :
 	st.markdown(f"""
-	$m_2={db['m_2']}[m]$
+	$m_2={db['m_2']}$ $[m]$
 	""")
 			
 if 'F_Rd' in db.keys() :
