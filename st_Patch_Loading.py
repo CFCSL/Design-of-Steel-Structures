@@ -48,7 +48,7 @@ flange respectively.
 			""")
 			
 # Load an image from file
-image = Image.open("Types.png")
+image = Image.open("Images/Types.png")
 # Display the image
 st.image(image,  use_column_width=True)
 
@@ -310,7 +310,7 @@ if section_62:
 				st.latex(latex(eta_2_val))
 				db['eta_2']=eta_2_val.rhs
 				# Load an image from file
-				image = Image.open("eta_1.png")
+				image = Image.open("Images/eta_1.png")
 				# Display the image
 				st.image(image, width=550)
 				
@@ -323,11 +323,6 @@ st.markdown('---')
 
 st.subheader('**6.3 Summary Results:**')
 
-# =============================================================================
-# list_to_show=['F_cr', 'k_F', 'F_y', 'l_y','m_1','m_2']
-# 
-# if db.keys() in list_to_show:
-# =============================================================================
 if 'F_cr' in db.keys() :
 	st.markdown(f"""
 	$F_{{cr}}={db['F_cr']}$  $[kN]$
