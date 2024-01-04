@@ -151,6 +151,7 @@ if db['s_s'] < db['a']:
 		db['m_2']=m_2_val.rhs
 	
 		if Type=="C":
+			st.markdown("""Calculation of effective length $l_e$""")
 			st.latex(latex(l_e_func(Type)))
 			st.latex(latex(l_e_func(Type, **db)))
 			l_e_val=N(l_e_func(Type, **db). doit(),4)
@@ -202,7 +203,9 @@ if db['s_s'] < db['a']:
 			st.latex(latex(Eq(m_2,0)))
 			db['m_2']=0
 
+
 			if Type=="C":
+				st.markdown("""Calculation of effective length $l_e$""")
 				st.latex(latex(l_e_func(Type)))
 				st.latex(latex(l_e_func(Type, **db)))
 				l_e_val=N(l_e_func(Type, **db). doit(),3)
