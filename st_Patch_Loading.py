@@ -167,7 +167,6 @@ st.markdown('---')
 	
 st.subheader('**6.2 Calculations**')
 
-
 if db['s_s'] < db['a']:
 	st.write('Calculation of Buckling coefficient using Figure 6.1 "Buckling coefficients for different types of load application" from article 6.1 basis')
 	st.latex(latex(k_F_func(Type)))
