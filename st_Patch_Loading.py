@@ -132,7 +132,7 @@ if db['s_s'] < db['a']:
 	st.write('Calculation of critical force using expression (6.5) from article 6.4 "Reduction factor $\chi_F$ for effective length for resistance"')
 	st.latex(latex(F_cr_func(Type)))
 	st.latex(latex(F_cr_func(Type, **db)))
-	F_cr_val=N(F_cr_func(Type, **db). doit(),4)
+	F_cr_val=N(F_cr_func(Type, **db). doit(),6)
 	st.latex(latex(F_cr_val)+f'[kN]')
 	db['F_cr']=F_cr_val.rhs
 	
