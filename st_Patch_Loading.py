@@ -113,6 +113,57 @@ if Type=="C":
 				$c={c_val}[m]$
 				""")
 st.markdown('---')
+
+# =============================================================================
+# st.subheader('**Summary Results:**')
+# 
+# # =============================================================================
+# # list_to_show=['F_cr', 'k_F', 'F_y', 'l_y','m_1','m_2']
+# # 
+# # if db.keys() in list_to_show:
+# # =============================================================================
+# #if 'F_cr' in db.keys() :
+# st.markdown(f"""
+# $F_{{cr}}={N(F_cr_func(Type, **db). doit(),6).rhs}$  $[kN]$
+# """)
+# #if 'k_F' in db.keys() :
+# st.markdown(f"""
+# $k_F={db['k_F']}$
+# """)
+# #if 'F_y' in db.keys() :
+# st.markdown(f"""
+# $F_{{y}}={db["F_y"]}$  $[kN]$
+# """)
+# #if 'l_y' in db.keys() :
+# st.markdown(f"""
+# $l_y={db['l_y']}$ $[m]$
+# """)
+# #if 'm_1' in db.keys() :
+# st.markdown(f"""
+# $m_1={db['m_1']}$ $[m]$
+# """)
+# #if 'm_2' in db.keys() :
+# st.markdown(f"""
+# $m_2={db['m_2']}$ $[m]$
+# """)
+# 		
+# #if 'F_Rd' in db.keys() :
+# st.markdown(f"""
+# $F_{{Rd}}={db['F_Rd']}$
+# """)
+# #if 'lambda_F' in db.keys() :
+# st.markdown(f"""
+# $\lambda_F={db['lambda_F']}$
+# """)
+# #if 'chi_F' in db.keys() :
+# st.markdown(f"""
+# $\chi_F={db['chi_F']}$
+# """)
+# #if 'eta_2' in db.keys() :
+# st.markdown(f"""
+# $\eta_2={db['eta_2']}$
+# """)
+# =============================================================================
 	
 st.subheader('**6.2 Calculations**')
 
@@ -132,7 +183,7 @@ if db['s_s'] < db['a']:
 	st.write('Calculation of critical force using expression (6.5) from article 6.4 "Reduction factor $\chi_F$ for effective length for resistance"')
 	st.latex(latex(F_cr_func(Type)))
 	st.latex(latex(F_cr_func(Type, **db)))
-	F_cr_val=N(F_cr_func(Type, **db). doit(),6)
+	F_cr_val=N(F_cr_func(Type, **db). doit(),7)
 	st.latex(latex(F_cr_val)+f'[kN]')
 	db['F_cr']=F_cr_val.rhs
 	
