@@ -9,13 +9,16 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 from Patch_Loading import *
-
+from logo_header import *
+from helper_functions import *
 
 import matplotlib.pyplot as plt
 from PIL import Image
 init_printing()
 
-
+logo()
+header()
+st.markdown('---')
 st.title('**These calculations base on the document Eurocode 3: Design of steel structures - Part 1-5:Plated structural elements**')
 
 st.header('**Section 6: Resistance to transverse forces**')
@@ -360,8 +363,22 @@ if 'eta_2' in db.keys() :
 	$\eta_2={db['eta_2']}$
 	""")
 
-
-
-
-
+# =============================================================================
+# variables = {
+#     'F_cr': '[kN]',
+#     'k_F': '',
+#     'F_y': '[kN]',
+#     'l_y': '[m]',
+#     'm_1': '[m]',
+#     'm_2': '[m]',
+#     'F_Rd': '',
+#     'lambda_F': '',
+#     'chi_F': '',
+#     'eta_2': ''
+# }
+# 
+# for variable, unit in variables.items():
+#     if variable in db.keys():
+#         st.markdown(f"${variable}={db[variable]}$ ${unit}$")
+# =============================================================================
 
